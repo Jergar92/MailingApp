@@ -86,6 +86,18 @@ void ModuleClient::onPacketReceivedQueryAllMessagesResponse(const InputMemoryStr
 	messages.clear();
 
 	uint32_t messageCount;
+	stream.Read(messageCount);
+	Message data;
+
+	for (int i = 0;i<messageCount;i++)
+	{
+		stream.Read(data.body);
+		stream.Read(data.receiverUsername);
+		stream.Read(data.senderUsername);
+		stream.Read(data.subject);
+		messages.push_back(data);
+
+	}
 	// TODO: Deserialize the number of messages
 
 	// TODO: Deserialize messages one by one and push_back them into the messages vector
@@ -129,10 +141,25 @@ void ModuleClient::sendPacketSendMessage(const char * receiver, const char * sub
 	OutputMemoryStream stream;
 
 	// TODO: Serialize message (packet type and all fields in the message)
+	PacketType type = PacketType::SendMessageRequest;
+	stream.Write(type);
+	Message data;
+
+	data.body = message;
+	data.receiverUsername = receiver;
+	data.senderUsername = senderBuf;
+	data.subject = subject;
+
+	stream.Write(data.body);
+	stream.Write(data.receiverUsername);
+	stream.Write(data.senderUsername);
+	stream.Write(data.subject);
+
+	stream.Write(type);
 	// NOTE: remember that senderBuf contains the current client (i.e. the sender of the message)
 
 	// TODO: Use sendPacket() to send the packet
-
+	sendPacket(stream);
 	messengerState = MessengerState::RequestingMessages;
 }
 
