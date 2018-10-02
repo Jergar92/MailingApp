@@ -109,7 +109,7 @@ void ModuleServer::sendPacketQueryAllMessagesResponse(SOCKET socket, const std::
 	PacketType type = PacketType::QueryAllMessagesResponse;
 
 	outStream.Write(type);
-	size_t size = messages.size();
+	uint32_t size = messages.size();
 	outStream.Write(size);
 	for (auto message : messages)
 	{
