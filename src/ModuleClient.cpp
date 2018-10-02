@@ -86,8 +86,6 @@ void ModuleClient::onPacketReceivedQueryAllMessagesResponse(const InputMemoryStr
 	messages.clear();
 
 	uint32_t messageCount;
-	stream.Read(messageCount);
-
 	// TODO: Deserialize the number of messages
 
 	// TODO: Deserialize messages one by one and push_back them into the messages vector
@@ -99,11 +97,15 @@ void ModuleClient::onPacketReceivedQueryAllMessagesResponse(const InputMemoryStr
 void ModuleClient::sendPacketLogin(const char * username)
 {
 	OutputMemoryStream stream;
-	std::string user(username);
+	std::string user=username;
+	PacketType type = PacketType::LoginRequest;
+	stream.Write(type);
+
 	stream.Write(user);
 	// TODO: Serialize Login (packet type and username)
-	sendPacket(stream);
+
 	// TODO: Use sendPacket() to send the packet
+	sendPacket(stream);
 
 	messengerState = MessengerState::RequestingMessages;
 }
@@ -113,9 +115,12 @@ void ModuleClient::sendPacketQueryMessages()
 	OutputMemoryStream stream;
 
 	// TODO: Serialize message (only the packet type)
-	
+	PacketType type = PacketType::QueryAllMessagesRequest;
+	stream.Write(type);
+
 	// TODO: Use sendPacket() to send the packet
-	//sendPacket(stream);
+	sendPacket(stream);
+
 	messengerState = MessengerState::ReceivingMessages;
 }
 
