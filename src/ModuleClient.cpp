@@ -256,6 +256,15 @@ void ModuleClient::updateGUI()
 				ImGui::PushID(i++);
 				if (ImGui::TreeNode(&message, "%s - %s", message.senderUsername.c_str(), message.subject.c_str()))
 				{
+					if (ImGui::BeginPopupContextWindow())
+					{
+						if (ImGui::MenuItem("Delete"))
+						{
+							// TODO: Delete this message from data
+						}
+
+						ImGui::EndPopup();
+					}
 					ImGui::TextWrapped("%s", message.body.c_str());
 					ImGui::TreePop();
 				}
