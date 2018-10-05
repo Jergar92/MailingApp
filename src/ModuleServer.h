@@ -36,10 +36,13 @@ private:
 	
 	void onPacketReceivedSendMessage(SOCKET socket, const InputMemoryStream& stream);
 
+	void onPacketDeletedMessage(SOCKET socket, const InputMemoryStream& stream);
+
 	void sendPacketQueryAllMessagesResponse(SOCKET socket, const std::string &username);
 
 	void sendPacket(SOCKET socket, OutputMemoryStream& stream);
 
+	
 
 	// GUI
 

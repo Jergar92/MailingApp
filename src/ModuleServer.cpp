@@ -76,6 +76,9 @@ void ModuleServer::onPacketReceived(SOCKET socket, const InputMemoryStream & str
 	case PacketType::SendMessageRequest:
 		onPacketReceivedSendMessage(socket, stream);
 		break;
+	case PacketType::DeleteMessageRequest:
+		onPacketDeletedMessage(socket, stream);
+		break;
 	default:
 		LOG("Unknown packet type received");
 		break;
@@ -140,6 +143,20 @@ void ModuleServer::onPacketReceivedSendMessage(SOCKET socket, const InputMemoryS
 
 	// Insert the message in the database
 	database()->insertMessage(message);
+}
+
+void ModuleServer::onPacketDeletedMessage(SOCKET socket, const InputMemoryStream & stream)
+{
+	Message message;
+	// TODO: Deserialize the packet (all fields in Message)
+	stream.Read(message.body);
+	stream.Read(message.receiverUsername);
+	stream.Read(message.senderUsername);
+	stream.Read(message.subject);
+
+	// Insert the message in the database
+	database()->DeleteMessage(message);
+
 }
 
 void ModuleServer::sendPacket(SOCKET socket, OutputMemoryStream & stream)

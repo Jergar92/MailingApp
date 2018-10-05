@@ -33,6 +33,8 @@ private:
 
 	void sendPacket(const OutputMemoryStream &stream);
 
+	void DeleteMessage(const Message &message);
+
 	
 	// GUI
 
@@ -80,7 +82,8 @@ private:
 		ReceivingMessages,
 		ShowingMessages,
 		ComposingMessage,
-		SendingMessage
+		SendingMessage,
+		DeleteMessage
 	};
 
 	// Current screen of the messenger application
@@ -94,7 +97,7 @@ private:
 	char receiverBuf[64]; // Buffer for the receiver
 	char subjectBuf[256]; // Buffer for the subject
 	char messageBuf[4096];// Buffer for the message
-
+	Message to_delete;
 
 	// Send and receive buffers (low-level stuff)
 

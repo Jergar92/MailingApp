@@ -18,6 +18,8 @@ public:
 
 	void insertMessage(const Message &message) override;
 
+	void DeleteMessage(const Message &message) override;
+
 	std::vector<Message> getAllMessagesReceivedByUser(const std::string &username) override;
 
 	virtual void updateGUI() override;

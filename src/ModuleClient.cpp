@@ -58,6 +58,9 @@ void ModuleClient::updateMessenger()
 	case ModuleClient::MessengerState::SendingMessage:
 		sendPacketSendMessage(receiverBuf, subjectBuf, messageBuf);
 		break;
+	case ModuleClient::MessengerState::DeleteMessage:
+		DeleteMessage(to_delete);
+		break;
 	default:
 		break;
 	}
@@ -155,13 +158,13 @@ void ModuleClient::sendPacketSendMessage(const char * receiver, const char * sub
 	stream.Write(data.senderUsername);
 	stream.Write(data.subject);
 
-	stream.Write(type);
 	// NOTE: remember that senderBuf contains the current client (i.e. the sender of the message)
 
 	// TODO: Use sendPacket() to send the packet
 	sendPacket(stream);
 	messengerState = MessengerState::RequestingMessages;
 }
+
 
 // This function is done for you: Takes the stream and schedules its internal buffer to be sent
 void ModuleClient::sendPacket(const OutputMemoryStream & stream)
@@ -173,6 +176,27 @@ void ModuleClient::sendPacket(const OutputMemoryStream & stream)
 	packetSize = HEADER_SIZE + stream.GetSize(); // header size + payload size
 	//std::copy(stream.GetBufferPtr(), stream.GetBufferPtr() + stream.GetSize(), &sendBuffer[oldSize] + HEADER_SIZE);
 	memcpy(&sendBuffer[oldSize] + HEADER_SIZE, stream.GetBufferPtr(), stream.GetSize());
+}
+
+void ModuleClient::DeleteMessage(const Message &message)
+{
+	OutputMemoryStream stream;
+
+	PacketType type = PacketType::DeleteMessageRequest;
+
+	stream.Write(type);
+	
+	stream.Write(message.body);
+	stream.Write(message.receiverUsername);
+	stream.Write(message.senderUsername);
+	stream.Write(message.subject);
+
+	// NOTE: remember that senderBuf contains the current client (i.e. the sender of the message)
+
+	// TODO: Use sendPacket() to send the packet
+	sendPacket(stream);
+	messengerState = MessengerState::RequestingMessages;
+
 }
 
 
@@ -261,6 +285,8 @@ void ModuleClient::updateGUI()
 						if (ImGui::MenuItem("Delete"))
 						{
 							// TODO: Delete this message from data
+							to_delete = message;
+							messengerState = MessengerState::DeleteMessage;
 						}
 
 						ImGui::EndPopup();

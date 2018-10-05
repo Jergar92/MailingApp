@@ -48,6 +48,11 @@ void MySqlDatabaseGateway::insertMessage(const Message & message)
 	}
 }
 
+void MySqlDatabaseGateway::DeleteMessage(const Message & message)
+{
+
+}
+
 std::vector<Message> MySqlDatabaseGateway::getAllMessagesReceivedByUser(const std::string & username)
 {
 	std::vector<Message> messages;
