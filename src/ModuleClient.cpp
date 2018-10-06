@@ -278,8 +278,6 @@ void ModuleClient::updateGUI()
 			for (auto &message : messages)
 			{
 				ImGui::PushID(i++);
-				if (ImGui::TreeNode(&message, "%s - %s", message.senderUsername.c_str(), message.subject.c_str()))
-				{
 					if (ImGui::BeginPopupContextWindow())
 					{
 						if (ImGui::MenuItem("Delete"))
@@ -291,6 +289,8 @@ void ModuleClient::updateGUI()
 
 						ImGui::EndPopup();
 					}
+				if (ImGui::TreeNode(&message, "%s - %s", message.senderUsername.c_str(), message.subject.c_str()))
+				{
 					ImGui::TextWrapped("%s", message.body.c_str());
 					ImGui::TreePop();
 				}
