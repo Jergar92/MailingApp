@@ -64,7 +64,7 @@ std::vector<Message> MySqlDatabaseGateway::getAllMessagesReceivedByUser(const st
 	{
 		std::string sqlStatement;
 		// TODO: Create the SQL statement to query all messages from the given user (SELECT)
-
+		sqlStatement = "SELECT * FROM MailingBox ";
 		// consult all messages
 		DBResultSet res = db.sql(sqlStatement.c_str());
 
