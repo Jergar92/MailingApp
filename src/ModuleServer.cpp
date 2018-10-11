@@ -120,6 +120,7 @@ void ModuleServer::sendPacketQueryAllMessagesResponse(SOCKET socket, const std::
 		outStream.Write(message.receiverUsername);
 		outStream.Write(message.senderUsername);
 		outStream.Write(message.subject);
+		outStream.Write(message.id);
 
 	}
 	// TODO: Create QueryAllMessagesResponse and serialize all the messages

@@ -98,6 +98,7 @@ void ModuleClient::onPacketReceivedQueryAllMessagesResponse(const InputMemoryStr
 		stream.Read(data.receiverUsername);
 		stream.Read(data.senderUsername);
 		stream.Read(data.subject);
+		stream.Read(data.id);
 		messages.push_back(data);
 
 	}
@@ -190,6 +191,7 @@ void ModuleClient::DeleteMessage(const Message &message)
 	stream.Write(message.receiverUsername);
 	stream.Write(message.senderUsername);
 	stream.Write(message.subject);
+	stream.Write(message.id);
 
 	// NOTE: remember that senderBuf contains the current client (i.e. the sender of the message)
 
