@@ -51,7 +51,17 @@ void MySqlDatabaseGateway::insertMessage(const Message & message)
 
 void MySqlDatabaseGateway::DeleteMessage(const Message & message)
 {
+	DBConnection db(bufMySqlHost, bufMySqlPort, bufMySqlDatabase, bufMySqlUsername, bufMySqlPassword);
+	if (db.isConnected())
+	{
+		DBResultSet res;
 
+		std::string sqlStatement;
+		sqlStatement = "DELETE from MailingBox where id=" + message.id;
+		db.sql(sqlStatement.c_str());
+
+
+	}
 }
 
 std::vector<Message> MySqlDatabaseGateway::getAllMessagesReceivedByUser(const std::string & username)
