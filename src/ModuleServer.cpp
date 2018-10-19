@@ -154,6 +154,7 @@ void ModuleServer::onPacketDeletedMessage(SOCKET socket, const InputMemoryStream
 	stream.Read(message.receiverUsername);
 	stream.Read(message.senderUsername);
 	stream.Read(message.subject);
+	stream.Read(message.id);
 
 	// Insert the message in the database
 	database()->DeleteMessage(message);

@@ -56,8 +56,9 @@ void MySqlDatabaseGateway::DeleteMessage(const Message & message)
 	{
 		DBResultSet res;
 
-		std::string sqlStatement;
-		sqlStatement = "DELETE from MailingBox where id=" + message.id;
+		std::string sqlStatement ;
+		sqlStatement = "DELETE from MailingBox where id = '" + std::to_string(message.id);
+		sqlStatement += "'";
 		db.sql(sqlStatement.c_str());
 
 
